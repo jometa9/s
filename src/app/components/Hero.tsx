@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <>
       <Link href="/" className="blogHeaderTitle">
-        <h2>Joaquin Metayer</h2>
+        <h2>jometa</h2>
       </Link>
     </>
   );

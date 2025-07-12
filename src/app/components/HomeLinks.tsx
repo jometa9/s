@@ -7,7 +7,7 @@ interface HomeLinksProps {
 export default function HomeLinks({ totalPosts = 0 }: HomeLinksProps) {
   return (
       <div className="homeLinksContent">
-        <h2 className="homeLinksTitle">Joaquin Metayer</h2>
+        <h2 className="homeLinksTitle">jometa</h2>
         <p className="homeQuote">
           fixing internet problems
         </p>
