@@ -21,7 +21,7 @@ export default function HomeLinks({ totalPosts = 0 }: HomeLinksProps) {
           <a href="https://www.instagram.com/jometa_/" className="homeLinksLink">
             Instagram
           </a>
-          <a href="https://www.youtube.com/@joaquinmetayer" className="homeLinksLink">
+          <a href="https://www.youtube.com/@jometa9" className="homeLinksLink">
             Youtube
           </a>
         </div>
