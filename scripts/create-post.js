@@ -10,6 +10,39 @@ const rl = readline.createInterface({
 
 const question = (query) => new Promise((resolve) => rl.question(query, resolve));
 
+function getLastPostDate() {
+    try {
+        const postsDir = path.join(__dirname, '..', 'posts');
+        const files = fs.readdirSync(postsDir);
+        
+        // Filter for markdown files and sort by name (newest first)
+        const markdownFiles = files
+            .filter(file => file.endsWith('.md'))
+            .sort()
+            .reverse();
+        
+        if (markdownFiles.length === 0) {
+            return null;
+        }
+        
+        // Get the most recent file
+        const lastPostFile = markdownFiles[0];
+        const filePath = path.join(postsDir, lastPostFile);
+        const content = fs.readFileSync(filePath, 'utf8');
+        
+        // Extract date from frontmatter
+        const dateMatch = content.match(/date:\s*"(\d{2}-\d{2}-\d{4})"/);
+        if (dateMatch) {
+            return dateMatch[1];
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error getting last post date:', error);
+        return null;
+    }
+}
+
 function executeGitCommand(command) {
     try {
         execSync(command, { stdio: 'inherit' });
@@ -22,20 +55,16 @@ function executeGitCommand(command) {
 }
 
 async function gitOperations(fileName) {
-    console.log('\nPerforming Git operations...');
-    
-    console.log('\nPulling latest changes...');
+
     if (!executeGitCommand('git pull')) {
         console.log('Error pulling changes. Continuing with commit...');
     }
     
-    console.log('\nAdding file to staging...');
     if (!executeGitCommand(`git add posts/${fileName}`)) {
         console.log('Error adding file to staging.');
         return false;
     }
     
-    console.log('\nCreating commit...');
     if (!executeGitCommand(`git commit -m "feat: new post ${fileName}"`)) {
         console.log('Error creating commit.');
         return false;
@@ -110,8 +139,13 @@ async function createPost() {
     try {
         const title = await question('Post title: ');
         let date;
+        const lastPostDate = getLastPostDate();
+        const datePrompt = lastPostDate 
+            ? `Date (format DD-MM-YYYY) [Last post: ${lastPostDate}]: `
+            : 'Date (format DD-MM-YYYY): ';
+        
         while (true) {
-            date = await question('Date (format DD-MM-YYYY): ');
+            date = await question(datePrompt);
             if (/^\d{2}-\d{2}-\d{4}$/.test(date)) {
                 break;
             }
