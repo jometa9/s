@@ -13,7 +13,7 @@ const PostPreview = (props: PostMetadata) => {
         <Link href={href} target={target} className="postPreviewTitle">
           {props.title}
         </Link>
-        <span>{props.date}</span>
+        <span >{props.date}</span>
       </p>
     );
   }
