@@ -13,10 +13,7 @@ export default function HomeLinks({ totalPosts = 0 }: HomeLinksProps) {
         </p>
         <div className="homeLinksContainer">
           <a href="https://www.linkedin.com/in/joaquinmetayer/" className="homeLinksLink">
-            Linkedin
-          </a>
-          <a href="https://www.instagram.com/jometa_/" className="homeLinksLink">
-            Instagram
+            LinkedIn
           </a>
 
         </div>

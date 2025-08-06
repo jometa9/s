@@ -11,12 +11,8 @@ export default function Hero() {
     </p>
     <div className="homeLinksContainer">
       <a href="https://www.linkedin.com/in/joaquinmetayer/" className="homeLinksLink">
-        Linkedin
+        LinkedIn
       </a>
-      <a href="https://www.instagram.com/jometa_/" className="homeLinksLink">
-        Instagram
-      </a>
-
     </div>
   </div>
   );
