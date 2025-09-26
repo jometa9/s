@@ -9,7 +9,6 @@ body {
   max-width: 800px;
 
   padding: 0px 30px 30px 30px;
-  margin: 0 auto;
   padding-bottom: 50px;
 }
 img {
@@ -69,24 +68,7 @@ hr {
   flex: 1;
   min-width: 0;
 }
-.footerDate {
-  padding-top: 30px;
-  padding-bottom: 20px;
-  text-align: center;
-  color: #00000050;
-}
-.homeLinksTitle {
-  font-size: 20px;
-  margin: 0;
-  padding-top: 30px;
-}
-.homeLinksContent{
-  min-height: 40vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 .homeLinksLinkContainer {
   display: flex;
   flex-wrap: wrap;
