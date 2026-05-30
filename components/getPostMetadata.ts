@@ -21,23 +21,23 @@ const getPostMetadata = (): {
     const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
     const matterResult = matter(fileContents);
     
-    // Check if content contains only YouTube iframe and extract URL
-    const content = matterResult.content.trim();
-    const youtubeIframeRegex = /<iframe\s+src="https:\/\/www\.youtube\.com\/embed\/([^"]+)"\s+allowfullscreen><\/iframe>/;
-    const match = content.match(youtubeIframeRegex);
-    
-    let youtubeUrl: string | undefined;
-    if (match && content === match[0]) {
-      // Content contains only the YouTube iframe
-      const videoId = match[1];
-      youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    // Prefer the YouTube URL declared in frontmatter (new, non-embedded posts).
+    let youtubeUrl: string | undefined = matterResult.data.youtube || undefined;
+
+    if (!youtubeUrl) {
+      // Backward compatibility: detect old posts whose body is only a YouTube iframe.
+      const content = matterResult.content.trim();
+      const youtubeIframeRegex = /<iframe\s+src="https:\/\/www\.youtube\.com\/embed\/([^"]+)"\s+allowfullscreen><\/iframe>/;
+      const match = content.match(youtubeIframeRegex);
+      if (match && content === match[0]) {
+        const videoId = match[1];
+        youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      }
     }
     
     return {
       date: matterResult.data.date,
       title: matterResult.data.title,
-      visible: matterResult.data.visible,
-      quote: matterResult.data.quote,
       slug: fileName.replace(".md", ""),
       youtubeUrl,
     } as PostMetadataWithDate;

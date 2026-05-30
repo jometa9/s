@@ -27,8 +27,7 @@ const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
     .filter((post) => {
       const postDate = parseDate(post.date);
       return postDate <= today;
-    })
-    .filter((post) => post.visible);
+    });
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);

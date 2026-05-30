@@ -97,14 +97,13 @@ async function getContentType() {
     while (true) {
         console.log('\nSelect content type:');
         console.log('1. Markdown Text');
-        console.log('2. Quote (title only, will be displayed in gray and not clickable)');
-        console.log('3. YouTube Video');
-        const choice = await question('Select an option (1-3): ');
-        
-        if (['1', '2', '3'].includes(choice)) {
+        console.log('2. YouTube Video');
+        const choice = await question('Select an option (1-2): ');
+
+        if (['1', '2'].includes(choice)) {
             return choice;
         }
-        console.log('Invalid option. Please select 1, 2, or 3.');
+        console.log('Invalid option. Please select 1 or 2.');
     }
 }
 
@@ -132,7 +131,7 @@ async function getYouTubeContent() {
         console.log('Invalid YouTube URL.');
         return '';
     }
-    return `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+    return `https://www.youtube.com/watch?v=${videoId}`;
 }
 
 async function createPost() {
@@ -152,39 +151,24 @@ async function createPost() {
             console.log('Invalid date format. Use DD-MM-YYYY');
         }
         
-        let visible;
-        while (true) {
-            const visibleInput = (await question('Is post visible? (y/n): ')).toLowerCase();
-            if (visibleInput === 'y' || visibleInput === 'n') {
-                visible = visibleInput === 'y';
-                break;
-            }
-            console.log('Please answer with "y" or "n"');
-        }
-        
         const contentType = await getContentType();
         let content = '';
-        let isQuote = false;
-        
+        let youtubeUrl = '';
+
         switch (contentType) {
             case '1':
                 content = await getMarkdownContent();
                 break;
             case '2':
-                isQuote = true;
-                content = '';
-                break;
-            case '3':
-                content = await getYouTubeContent();
+                youtubeUrl = await getYouTubeContent();
                 break;
         }
-        
+
+        const youtubeLine = youtubeUrl ? `\nyoutube: "${youtubeUrl}"` : '';
         let postContent = `---
 date: "${date}"
 title: "${title}"
-visible: ${visible}
-quote: ${isQuote}
-slug: "${date.split('-').reverse().join('')}"
+slug: "${date.split('-').reverse().join('')}"${youtubeLine}
 ---\n\n${content}`;
         
         const baseFileName = `${date.split('-').reverse().join('')}.md`;

@@ -5,7 +5,7 @@ import './jometa.css'
 
 export default function Home() {
   const { posts } = getPostMetadata();
-  const totalPosts = posts.filter(post => post.visible).length;
+  const totalPosts = posts.length;
 
   return (
     <>
