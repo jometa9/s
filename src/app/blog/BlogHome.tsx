@@ -51,8 +51,8 @@ const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
       <hr />
       {years.map(year => (
         <div key={year} className="year-section">
-          <div className="year-header">
-            <p>{year} - {postsByYear[year].length} posts</p>
+          <div >
+            <p className="year-header">{year} - {postsByYear[year].length} posts</p>
           </div>
           <div className="year-posts">
             <hr />

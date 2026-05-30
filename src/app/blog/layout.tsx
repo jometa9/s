@@ -1,4 +1,4 @@
-import Hero from "../components/Hero";
+import Header from "../components/Header";
 import '../jometa.css'
 
 export default function BlogLayout({
@@ -8,7 +8,7 @@ export default function BlogLayout({
 }) {
   return (
     <div>
-      <Hero />
+      <Header />
       <main>{children}</main>
     </div>
   );

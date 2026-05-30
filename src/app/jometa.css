@@ -56,45 +56,35 @@ hr {
   flex-shrink: 0;
   color: #00000050;
 }
-.quoteView {
-  white-space: nowrap;
-  flex-shrink: 0;
+.year-header{
+  text-align: center;
   color: #00000050;
 }
-.quoteViewTitle {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #00000050;
-  flex: 1;
-  min-width: 0;
+/* Book-chapter style header */
+.bookHeader {
+  text-align: center;
+  padding: 160px 20px 160px 20px;
 }
-
-.homeLinksLinkContainer {
-  display: flex;
-  flex-wrap: wrap;
-}
-.homeLinksImage {
-  width: 200px;
-  margin: 10px 0 20px 0;
-}
-.homeLinksLink {
-  text-decoration: none;
-  color: #000000;
-}
-.blogHeaderTitle {
+.bookHeaderTitleLink {
   text-decoration: none;
 }
-h2{
-  padding-top: 10px;
-}
-.homeQuote {
-  color: #00000050;
-}
-.homeLinksContainer{
+.bookHeaderTitle {
+  font-size: 30px;
+  font-weight: bold;
   margin: 0;
-  padding: 0;
+  padding: 10px;
+}
+.bookHeaderMeta {
+  color: #00000050;
+  padding: 10px;
+
+  margin:  0;
+}
+.bookHeaderLinks {
   display: flex;
-  gap: 10px;
-  padding-bottom: 20px;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+
+  margin: 0;
 }
