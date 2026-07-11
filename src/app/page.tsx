@@ -1,7 +1,6 @@
+import Link from "next/link";
 import getPostMetadata from "../../components/getPostMetadata";
-import BlogHome from "./blog/BlogHome";
 import Header from "./components/Header";
-import './jometa.css'
 
 export default function Home() {
   const { posts } = getPostMetadata();
@@ -11,9 +10,8 @@ export default function Home() {
     : undefined;
 
   return (
-    <>
+    <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-8">
       <Header totalPosts={totalPosts} startYear={startYear} />
-      <BlogHome posts={posts} />
-    </>
+    </main>
   );
 }

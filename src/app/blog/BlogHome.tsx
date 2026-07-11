@@ -47,20 +47,17 @@ const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
   const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
   return (
-    <span id="blog">
-      <hr />
+    <span id="blog" className="block">
       {years.map(year => (
-        <div key={year} className="year-section">
-          <div >
-            <p className="year-header">{year} - {postsByYear[year].length} posts</p>
+        <div key={year} className="mb-2">
+          <div>
+            <p className="text-black/30 mb-2">{year} - {postsByYear[year].length} posts</p>
           </div>
-          <div className="year-posts">
-            <hr />
+          <div className="flex flex-col gap-2">
             {postsByYear[year].map(post => (
               <PostPreview key={post.slug} {...post} />
             ))}
           </div>
-          <hr />
         </div>
       ))}
     </span>

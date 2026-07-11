@@ -66,9 +66,8 @@ const PostPage = async (props: any) => {
           {post.content}
         </Markdown>
       </article>
-      <p className="footerDate">
-
-      {post.data.date} 
+      <p className="text-black/30">
+        {post.data.date}
       </p>
     </div>
   );
