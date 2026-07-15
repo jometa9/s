@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function BlogNavTitle() {
   const pathname = usePathname();
-  const isPost = pathname?.startsWith("/blog/posts/");
+  const isPost = pathname !== "/blog" && pathname?.startsWith("/blog/");
   const href = isPost ? "/blog" : "/";
 
   return (

@@ -1,8 +1,8 @@
 import fs from "fs";
 import Markdown from "markdown-to-jsx";
 import matter from "gray-matter";
-import getPostMetadata from "../../../../../components/getPostMetadata";
-import { highlightCode } from "../../../utils/highlight";
+import getPostMetadata from "../../../../components/getPostMetadata";
+import { highlightCode } from "../../utils/highlight";
 
 const getPostContent = (slug: any) => {
   try {
