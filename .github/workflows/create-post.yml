@@ -27,6 +27,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Push with a user PAT (not the default GITHUB_TOKEN) so the resulting
+          # push to main triggers the "Deploy Next.js site to Pages" workflow.
+          # Pushes made with GITHUB_TOKEN do not trigger other workflows.
+          token: ${{ secrets.BLOG }}
 
       - name: Create post file from issue
         id: create
