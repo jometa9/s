@@ -19,8 +19,8 @@ const path = require("path");
 // Any file attached through the issue (image or document, hosted on GitHub's
 // CDN) is downloaded into the repo and its link is rewritten to a local path,
 // so the post is fully self-hosted:
-//   - images    -> public/images/  ->  /blog/images/<file>
-//   - documents -> public/files/   ->  /blog/files/<file>
+//   - images    -> public/images/  ->  /s/images/<file>
+//   - documents -> public/files/   ->  /s/files/<file>
 //
 // Exposes `file`, `slug` and `attachments` (space-separated) via GITHUB_OUTPUT.
 
@@ -119,7 +119,7 @@ function resolveTarget(url, res, slug, index, dirs) {
   const targetImage = isImage && !filesMatch;
   return {
     dir: targetImage ? dirs.images : dirs.files,
-    urlPrefix: targetImage ? "/blog/images" : "/blog/files",
+    urlPrefix: targetImage ? "/s/images" : "/s/files",
     repoPrefix: targetImage ? "public/images" : "public/files",
     name,
   };
@@ -135,7 +135,7 @@ async function fetchAttachment(url, token) {
 }
 
 // Downloads every GitHub-hosted attachment found in `content`, saves it into
-// the repo and rewrites its URL to a local /blog/... path. Returns the
+// the repo and rewrites its URL to a local /s/... path. Returns the
 // rewritten content and the list of repo-relative paths that were written.
 async function downloadAttachments(content, slug, dirs, token) {
   const urls = [...new Set(content.match(ATTACHMENT_URL_REGEX) || [])];
