@@ -20,26 +20,11 @@ const getPostMetadata = (): {
   const posts = markdownPosts.map((fileName) => {
     const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
     const matterResult = matter(fileContents);
-    
-    // Prefer the YouTube URL declared in frontmatter (new, non-embedded posts).
-    let youtubeUrl: string | undefined = matterResult.data.youtube || undefined;
 
-    if (!youtubeUrl) {
-      // Backward compatibility: detect old posts whose body is only a YouTube iframe.
-      const content = matterResult.content.trim();
-      const youtubeIframeRegex = /<iframe\s+src="https:\/\/www\.youtube\.com\/embed\/([^"]+)"\s+allowfullscreen><\/iframe>/;
-      const match = content.match(youtubeIframeRegex);
-      if (match && content === match[0]) {
-        const videoId = match[1];
-        youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      }
-    }
-    
     return {
       date: matterResult.data.date,
       title: matterResult.data.title,
       slug: fileName.replace(".md", ""),
-      youtubeUrl,
     } as PostMetadataWithDate;
   });
 

@@ -33,12 +33,6 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           <h2 className="text-4xl font-bold m-0 p-6 md:px-0">jometa</h2>
         </Link>
 
-        <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
-          <Link href="/blog" className="no-underline text-black/20">
-            blog w {totalPosts !== undefined && <span>{totalPosts} posts</span>}
-          </Link>
-        </p>
-
         <div className="mt-6 flex flex-col items-center md:items-start gap-2">
         <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
           <a
