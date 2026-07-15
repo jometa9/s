@@ -9,6 +9,11 @@ permissions:
   contents: write
   issues: write
 
+# Run one post at a time so concurrent issues don't race on pushing to main.
+concurrency:
+  group: create-post
+  cancel-in-progress: false
+
 jobs:
   create-post:
     runs-on: ubuntu-latest
@@ -27,7 +32,9 @@ jobs:
         id: create
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # A user PAT is required to download issue image/file attachments;
+          # the default GITHUB_TOKEN cannot access user-attachments URLs.
+          GITHUB_TOKEN: ${{ secrets.POST_TOKEN }}
         run: node scripts/create-post-from-issue.js
 
       - name: Commit and push
@@ -36,7 +43,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "${{ steps.create.outputs.file }}" ${{ steps.create.outputs.attachments }}
           git commit -m "feat: new post ${{ steps.create.outputs.file }} (#${{ github.event.issue.number }})"
-          git push
+          # Rebase onto any concurrent changes and retry, so the push never loses a race.
+          for attempt in 1 2 3 4 5; do
+            if git push; then exit 0; fi
+            echo "Push rejected, syncing with remote (attempt $attempt)..."
+            git pull --rebase origin main
+          done
+          echo "Failed to push after several attempts" >&2
+          exit 1
 
       - name: Comment and close issue
         env:

@@ -125,6 +125,15 @@ function resolveTarget(url, res, slug, index, dirs) {
   };
 }
 
+// Fetches a GitHub attachment. Issue attachment URLs (user-attachments/assets)
+// are only served to an authenticated *user* session, so the default Actions
+// GITHUB_TOKEN gets a 404 — a user Personal Access Token (secret) is required.
+async function fetchAttachment(url, token) {
+  const headers = { "User-Agent": "blog-post-bot" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return fetch(url, { headers });
+}
+
 // Downloads every GitHub-hosted attachment found in `content`, saves it into
 // the repo and rewrites its URL to a local /blog/... path. Returns the
 // rewritten content and the list of repo-relative paths that were written.
@@ -135,8 +144,7 @@ async function downloadAttachments(content, slug, dirs, token) {
 
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i];
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await fetch(url, { headers });
+    const res = await fetchAttachment(url, token);
     if (!res.ok) {
       console.error(`Failed to download attachment ${url}: ${res.status}`);
       continue;
