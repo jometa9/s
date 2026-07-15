@@ -202,8 +202,6 @@ async function main() {
   const postContent = `---
 date: "${escapeYamlString(date)}"
 title: "${escapeYamlString(title)}"
-visible: true
-
 slug: "${slug}"
 ---
 
