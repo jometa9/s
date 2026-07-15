@@ -34,7 +34,7 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           # A user PAT is required to download issue image/file attachments;
           # the default GITHUB_TOKEN cannot access user-attachments URLs.
-          GITHUB_TOKEN: ${{ secrets.POST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BLOG }}
         run: node scripts/create-post-from-issue.js
 
       - name: Commit and push
