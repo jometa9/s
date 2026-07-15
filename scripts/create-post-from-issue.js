@@ -202,7 +202,6 @@ async function main() {
   const postContent = `---
 date: "${escapeYamlString(date)}"
 title: "${escapeYamlString(title)}"
-slug: "${slug}"
 ---
 
 ${finalContent}

@@ -131,7 +131,7 @@ async function getYouTubeContent() {
         console.log('Invalid YouTube URL.');
         return '';
     }
-    return `https://www.youtube.com/watch?v=${videoId}`;
+    return `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
 }
 
 async function createPost() {
@@ -153,22 +153,19 @@ async function createPost() {
         
         const contentType = await getContentType();
         let content = '';
-        let youtubeUrl = '';
 
         switch (contentType) {
             case '1':
                 content = await getMarkdownContent();
                 break;
             case '2':
-                youtubeUrl = await getYouTubeContent();
+                content = await getYouTubeContent();
                 break;
         }
 
-        const youtubeLine = youtubeUrl ? `\nyoutube: "${youtubeUrl}"` : '';
         let postContent = `---
 date: "${date}"
 title: "${title}"
-slug: "${date.split('-').reverse().join('')}"${youtubeLine}
 ---\n\n${content}`;
         
         const baseFileName = `${date.split('-').reverse().join('')}.md`;
