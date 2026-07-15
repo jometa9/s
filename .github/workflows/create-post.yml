@@ -27,13 +27,14 @@ jobs:
         id: create
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/create-post-from-issue.js
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "${{ steps.create.outputs.file }}"
+          git add "${{ steps.create.outputs.file }}" ${{ steps.create.outputs.attachments }}
           git commit -m "feat: new post ${{ steps.create.outputs.file }} (#${{ github.event.issue.number }})"
           git push
 
