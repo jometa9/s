@@ -34,7 +34,6 @@ const PostPage = async (props: any) => {
 
   return (
     <div>
-      <hr />
       <h3>
         <b>
           {post.data.title}
