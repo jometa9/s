@@ -1,0 +1,44 @@
+name: New post
+description: Create and publish a new blog post by filling out this form.
+title: "[Post] "
+labels: ["new-post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill out the form and submit the issue.
+        A GitHub Action will create the file in `posts/`, commit it and publish the post automatically.
+        When it finishes, this issue is closed automatically with a link to the created file.
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: The post title (shown on the blog).
+      placeholder: My new post
+    validations:
+      required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Date (optional)
+      description: Format DD-MM-YYYY. If left empty, today's date is used.
+      placeholder: 14-07-2026
+    validations:
+      required: false
+
+  - type: textarea
+    id: content
+    attributes:
+      label: Content
+      description: The post body in Markdown. Supports line breaks, headings, lists, bold, code, links, images, etc.
+      placeholder: |
+        # Heading
+
+        A paragraph with **bold** and *italic*.
+
+        - Item 1
+        - Item 2
+    validations:
+      required: true

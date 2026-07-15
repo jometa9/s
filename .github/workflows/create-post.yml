@@ -1,0 +1,54 @@
+name: Create post from issue
+
+on:
+  issues:
+    types: [opened, labeled]
+
+# Allow the workflow to commit the new file and to comment on / close the issue.
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  create-post:
+    runs-on: ubuntu-latest
+    # Only run for issues created from the "New post" form. We check both the
+    # label and the title prefix so it works even if the label does not exist yet.
+    if: >
+      contains(github.event.issue.labels.*.name, 'new-post') ||
+      startsWith(github.event.issue.title, '[Post]')
+    env:
+      TZ: America/Argentina/Buenos_Aires
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create post file from issue
+        id: create
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: node scripts/create-post-from-issue.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ steps.create.outputs.file }}"
+          git commit -m "feat: new post ${{ steps.create.outputs.file }} (#${{ github.event.issue.number }})"
+          git push
+
+      - name: Comment and close issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" \
+            --body "✅ Post published: \`${{ steps.create.outputs.file }}\`. It will be live once the Pages deploy finishes."
+          gh issue close "${{ github.event.issue.number }}"
+
+      - name: Report failure on the issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" \
+            --body "❌ Could not create the post. Check the workflow run logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
