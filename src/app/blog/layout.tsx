@@ -1,4 +1,4 @@
-import Link from "next/link";
+import BlogNavTitle from "./BlogNavTitle";
 
 export default function BlogLayout({
   children,
@@ -8,9 +8,7 @@ export default function BlogLayout({
   return (
     <div className="max-w-[700px] px-8 pb-12">
       <nav className="py-10">
-        <Link href="/" className="no-underline text-2xl font-bold">
-          jometa
-        </Link>
+        <BlogNavTitle />
       </nav>
       <main>{children}</main>
     </div>
