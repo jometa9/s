@@ -5,6 +5,7 @@ import PostPreview from "../../../components/PostPreview";
 
 interface SearchablePostsProps {
   posts: PostMetadata[];
+  showScheduled?: boolean;
 }
 
 const parseDate = (dateString: string) => {
@@ -16,18 +17,20 @@ const getYearFromDate = (dateString: string) => {
   return dateString.split("-")[2];
 };
 
-const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
+const BlogHome: React.FC<SearchablePostsProps> = ({
+  posts = [],
+  showScheduled = false,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const today = new Date();
+
+  const isScheduled = (post: PostMetadata) => parseDate(post.date) > today;
 
   const filteredPosts = posts
     .filter((post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .filter((post) => {
-      const postDate = parseDate(post.date);
-      return postDate <= today;
-    });
+    .filter((post) => showScheduled || !isScheduled(post));
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -55,7 +58,12 @@ const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
           </div>
           <div className="flex flex-col gap-2">
             {postsByYear[year].map(post => (
-              <PostPreview key={post.slug} {...post} />
+              <span
+                key={post.slug}
+                className={isScheduled(post) ? "opacity-50" : undefined}
+              >
+                <PostPreview {...post} />
+              </span>
             ))}
           </div>
         </div>
