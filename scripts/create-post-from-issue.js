@@ -38,6 +38,11 @@ const EXT_BY_CONTENT_TYPE = {
   "image/avif": ".avif",
 };
 
+// Labels of the fields defined in .github/ISSUE_TEMPLATE (issue forms render
+// each field as "### <label>"). Only these are treated as section boundaries,
+// so "### ..." headings inside the post content don't truncate it.
+const FORM_LABELS = new Set(["title", "content"]);
+
 function parseIssueForm(body) {
   const lines = body.replace(/\r\n/g, "\n").split("\n");
   const sections = {};
@@ -45,7 +50,7 @@ function parseIssueForm(body) {
 
   for (const line of lines) {
     const heading = line.match(/^###\s+(.+?)\s*$/);
-    if (heading) {
+    if (heading && FORM_LABELS.has(heading[1].toLowerCase())) {
       current = heading[1];
       sections[current] = [];
     } else if (current) {

@@ -9,7 +9,7 @@ export default function BlogNavTitle() {
   const href = isPost ? "/blog" : "/";
 
   return (
-    <Link href={href} className="no-underline text-2xl font-bold">
+    <Link href={href} className="no-underline text-2xl font-bold ">
       jometa
     </Link>
   );

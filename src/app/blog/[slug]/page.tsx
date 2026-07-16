@@ -1,5 +1,7 @@
 import fs from "fs";
-import Markdown from "markdown-to-jsx";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import matter from "gray-matter";
 import getPostMetadata from "../../../../components/getPostMetadata";
 import { highlightCode } from "../../utils/highlight";
@@ -34,31 +36,30 @@ const PostPage = async (props: any) => {
 
   return (
     <div>
-      <h3>
-        <b>
+      <h2 className="text-2xl mb-8">
           {post.data.title}
-        </b>
-      </h3>
+      </h2>
       <article>
         <Markdown
-          options={{
-            overrides: {
-              code: {
-                component: ({ className, children }) => {
-                  const language = className
-                    ? className.replace("lang-", "")
-                    : "";
-                  const highlighted = highlightCode(children, language);
-                  return (
-                    <pre>
-                      <code
-                        className={`hljs ${language}`}
-                        dangerouslySetInnerHTML={{ __html: highlighted }}
-                      />
-                    </pre>
-                  );
-                },
-              },
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+          components={{
+            code: ({ className, children }) => {
+              // Inline code has no language class and no newlines.
+              const language = className
+                ? className.replace("language-", "")
+                : "";
+              const text = String(children).replace(/\n$/, "");
+              if (!className && !text.includes("\n")) {
+                return <code>{text}</code>;
+              }
+              const highlighted = highlightCode(text, language);
+              return (
+                <code
+                  className={`hljs ${language}`}
+                  dangerouslySetInnerHTML={{ __html: highlighted }}
+                />
+              );
             },
           }}
         >
