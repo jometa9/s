@@ -1,3 +1,7 @@
+/* Code highlight themes: light by default, dark when the system prefers it. */
+@import 'highlight.js/styles/github.css';
+@import 'highlight.js/styles/github-dark.css' (prefers-color-scheme: dark);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,6 +12,7 @@
   }
   body {
     color: #000;
+    background: #fff;
     user-select: none;
     font-family: monospace;
   }
@@ -36,10 +41,26 @@
   article pre { background: #f6f8fa; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.85rem; }
   article pre code { background: none; padding: 0; }
   article code { background: #f6f8fa; padding: 0.15rem 0.35rem; border-radius: 4px; }
+  /* the hljs themes set their own background on .hljs — always use the pre's instead */
+  article pre .hljs { background: transparent; }
 
   /* GitHub-style tables */
   article table { border-collapse: collapse; margin: 1rem 0; display: block; max-width: 100%; overflow-x: auto; }
   article th, article td { border: 1px solid #00000030; padding: 0.4rem 0.8rem; text-align: left; }
   article th { font-weight: bold; background: #00000008; }
   article tr:nth-child(even) { background: #00000005; }
+
+  /* Dark mode follows the system theme. Light is the default.
+     Neutral palette only: black, white and grays — no color tints. */
+  @media (prefers-color-scheme: dark) {
+    body { color: #e5e5e5; background: #0a0a0a; }
+    article blockquote { border-left-color: #ffffff30; }
+    article hr { border-top-color: #ffffff30; }
+    article pre { background: #1a1a1a; }
+    article pre code { background: none; }
+    article code { background: #1a1a1a; }
+    article th, article td { border-color: #ffffff30; }
+    article th { background: #ffffff0d; }
+    article tr:nth-child(even) { background: #ffffff08; }
+  }
 }

@@ -51,7 +51,7 @@ const BlogHome: React.FC<SearchablePostsProps> = ({ posts = [] }) => {
       {years.map(year => (
         <div key={year} className="mb-2">
           <div>
-            <p className="text-black/30 mb-2">{year} - {postsByYear[year].length} posts</p>
+            <p className="text-black/30 dark:text-white/30 mb-2">{year} - {postsByYear[year].length} posts</p>
           </div>
           <div className="flex flex-col gap-2">
             {postsByYear[year].map(post => (

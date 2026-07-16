@@ -66,7 +66,7 @@ const PostPage = async (props: any) => {
           {post.content}
         </Markdown>
       </article>
-      <p className="text-black/30">
+      <p className="text-black/30 dark:text-white/30">
         {post.data.date}
       </p>
     </div>

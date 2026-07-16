@@ -7,7 +7,7 @@ const Custom404 = () => {
       <Link href="/" className="text-3xl font-bold">
         jometa
       </Link>
-      <p className="text-6xl text-black/20">404</p>
+      <p className="text-6xl text-black/20 dark:text-white/20">404</p>
     </main>
   );
 };

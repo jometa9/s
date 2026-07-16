@@ -10,7 +10,7 @@ const PostPreview = (props: PostMetadata) => {
       >
         {props.title}
       </Link>
-      <span className="whitespace-nowrap flex-shrink-0 text-black/30">{props.date}</span>
+      <span className="whitespace-nowrap flex-shrink-0 text-black/30 dark:text-white/30">{props.date}</span>
     </p>
   );
 };

@@ -1,5 +1,4 @@
 import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
 
 export const highlightCode = (str: string, lang?: string): string => {
   if (lang && hljs.getLanguage(lang)) {

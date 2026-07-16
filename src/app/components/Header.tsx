@@ -42,7 +42,7 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           >
             iptrade
           </a>
-          <span className="text-black/20">-</span>
+          <span className="text-black/20 dark:text-white/20">-</span>
           <a
             href="https://5mtrader.com"
             target="_blank"
@@ -50,7 +50,7 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           >
             5mtrader
           </a>
-          <span className="text-black/20">-</span>
+          <span className="text-black/20 dark:text-white/20">-</span>
           <a
             href="https://api2labs.com"
             target="_blank"
@@ -67,7 +67,7 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           >
             github
           </a>
-          <span className="text-black/20">-</span>
+          <span className="text-black/20 dark:text-white/20">-</span>
           <a
             href="https://www.linkedin.com/in/joaquinmetayer/"
             target="_blank"
@@ -75,11 +75,11 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           >
             linkedin
           </a>
-          <span className="text-black/20">-</span>
+          <span className="text-black/20 dark:text-white/20">-</span>
           <a href="mailto:joaquinmetayer@gmail.com">email</a>
         </p>
         <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
-          <Link href="/blog" className="no-underline text-black/20">
+          <Link href="/blog" className="no-underline text-black/20 dark:text-white/20">
             blog w {totalPosts !== undefined && <span>{totalPosts} posts</span>}
           </Link>
         </p>
