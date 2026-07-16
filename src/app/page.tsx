@@ -10,7 +10,7 @@ export default function Home() {
     : undefined;
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-8">
+    <main className="fixed inset-0 overflow-hidden flex flex-col items-center justify-center gap-6 p-8">
       <Header totalPosts={totalPosts} startYear={startYear} />
     </main>
   );
