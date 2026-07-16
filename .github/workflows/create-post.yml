@@ -62,7 +62,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh issue comment "${{ github.event.issue.number }}" \
-            --body "✅ Post published: \`${{ steps.create.outputs.file }}\`. It will be live once the Pages deploy finishes."
+            --body "Post published: \`${{ steps.create.outputs.file }}\`. It will be live once the Pages deploy finishes."
           gh issue close "${{ github.event.issue.number }}"
 
       - name: Report failure on the issue
@@ -71,4 +71,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh issue comment "${{ github.event.issue.number }}" \
-            --body "❌ Could not create the post. Check the workflow run logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            --body "Could not create the post. Check the workflow run logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
