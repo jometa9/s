@@ -13,7 +13,6 @@
   body {
     color: #000;
     background: #fff;
-    user-select: none;
     font-family: monospace;
   }
   img {
