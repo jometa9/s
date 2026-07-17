@@ -14,8 +14,7 @@ function getLastPostDate() {
     try {
         const postsDir = path.join(__dirname, '..', 'posts');
         const files = fs.readdirSync(postsDir);
-        
-        // Filter for markdown files and sort by name (newest first)
+
         const markdownFiles = files
             .filter(file => file.endsWith('.md'))
             .sort()
@@ -24,13 +23,11 @@ function getLastPostDate() {
         if (markdownFiles.length === 0) {
             return null;
         }
-        
-        // Get the most recent file
+
         const lastPostFile = markdownFiles[0];
         const filePath = path.join(postsDir, lastPostFile);
         const content = fs.readFileSync(filePath, 'utf8');
-        
-        // Extract date from frontmatter
+
         const dateMatch = content.match(/date:\s*"(\d{2}-\d{2}-\d{4})"/);
         if (dateMatch) {
             return dateMatch[1];

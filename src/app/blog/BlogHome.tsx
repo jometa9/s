@@ -36,7 +36,6 @@ const BlogHome: React.FC<SearchablePostsProps> = ({
     setSearchTerm(event.target.value);
   };
 
-  // Agrupar posts por año
   const postsByYear: {[key: string]: PostMetadata[]} = {};
   filteredPosts.forEach(post => {
     const year = getYearFromDate(post.date);
@@ -46,7 +45,6 @@ const BlogHome: React.FC<SearchablePostsProps> = ({
     postsByYear[year].push(post);
   });
 
-  // Ordenar años en orden descendente
   const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
   return (

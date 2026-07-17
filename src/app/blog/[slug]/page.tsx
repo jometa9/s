@@ -45,7 +45,6 @@ const PostPage = async (props: any) => {
           rehypePlugins={[rehypeRaw]}
           components={{
             code: ({ className, children }) => {
-              // Inline code has no language class and no newlines.
               const language = className
                 ? className.replace("language-", "")
                 : "";

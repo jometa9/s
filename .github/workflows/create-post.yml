@@ -4,12 +4,10 @@ on:
   issues:
     types: [opened]
 
-# Allow the workflow to commit the new file and to comment on / close the issue.
 permissions:
   contents: write
   issues: write
 
-# Run one post at a time so concurrent issues don't race on pushing to main.
 concurrency:
   group: create-post
   cancel-in-progress: false
@@ -17,8 +15,6 @@ concurrency:
 jobs:
   create-post:
     runs-on: ubuntu-latest
-    # Only run for issues created from the "New post" form. We check both the
-    # label and the title prefix so it works even if the label does not exist yet.
     if: >
       contains(github.event.issue.labels.*.name, 'new-post') ||
       startsWith(github.event.issue.title, '[Post]')
@@ -28,17 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Push with a user PAT (not the default GITHUB_TOKEN) so the resulting
-          # push to main triggers the "Deploy Next.js site to Pages" workflow.
-          # Pushes made with GITHUB_TOKEN do not trigger other workflows.
           token: ${{ secrets.BLOG }}
 
       - name: Create post file from issue
         id: create
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
-          # A user PAT is required to download issue image/file attachments;
-          # the default GITHUB_TOKEN cannot access user-attachments URLs.
           GITHUB_TOKEN: ${{ secrets.BLOG }}
         run: node scripts/create-post-from-issue.js
 
@@ -48,7 +39,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "${{ steps.create.outputs.file }}" ${{ steps.create.outputs.attachments }}
           git commit -m "feat: new post ${{ steps.create.outputs.file }} (#${{ github.event.issue.number }})"
-          # Rebase onto any concurrent changes and retry, so the push never loses a race.
           for attempt in 1 2 3 4 5; do
             if git push; then exit 0; fi
             echo "Push rejected, syncing with remote (attempt $attempt)..."
