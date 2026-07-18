@@ -3,12 +3,10 @@ import { Fragment } from "react";
 import SiteTitle from "./SiteTitle";
 import { muted } from "./styles";
 
-const AVATAR = "w-[140px] h-[140px] object-cover";
+const AVATAR = "w-[160px] h-[160px] object-cover";
 
 const AVATARS = [
-  { src: "/s/images/founder4.webp", className: AVATAR },
-  { src: "/s/images/final_enhanced_image.webp", className: AVATAR },
-  { src: "/s/images/blue.webp", className: `${AVATAR} -ml-6 mt-12` },
+  "/images/blue.webp",
 ];
 
 const PROJECTS = [
@@ -26,7 +24,7 @@ const SOCIALS = [
 /** A row of external links joined by dashes. */
 function LinkRow({ links }: { links: { href: string; label: string }[] }) {
   return (
-    <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
+    <p className="flex flex-wrap justify-start items-start gap-x-3 gap-y-1 m-0">
       {links.map((link, index) => (
         <Fragment key={link.href}>
           {index > 0 && <span className={muted}>-</span>}
@@ -41,30 +39,20 @@ function LinkRow({ links }: { links: { href: string; label: string }[] }) {
 
 export default function Header({ totalPosts }: { totalPosts?: number }) {
   return (
-    <header className="px-5 flex flex-col md:flex-row items-center gap-6 md:gap-24 text-center md:text-left">
-      <div className="flex flex-col items-center pb-4 md:pb-0 shrink-0">
-        <div className="flex justify-center">
-          <img className={AVATARS[0].className} src={AVATARS[0].src} alt="jometa" />
-        </div>
-        <div className="flex justify-center items-start -mt-4">
-          {AVATARS.slice(1).map((avatar) => (
-            <img
-              key={avatar.src}
-              className={avatar.className}
-              src={avatar.src}
-              alt="jometa"
-            />
-          ))}
-        </div>
+    <header className="px-5 flex flex-col md:flex-row items-start gap-6 text-left">
+      <div className="grid grid-cols-2 gap-2 md:pb-0 shrink-0">
+        {AVATARS.map((src) => (
+          <img key={src} className={AVATAR} src={src} alt="jometa" />
+        ))}
       </div>
 
-      <div className="flex flex-col items-center md:items-start">
-        <SiteTitle className="text-4xl p-6 md:px-0" />
+      <div className="flex flex-col ">
+        <SiteTitle className="text-2xl px-0 text-left " />
 
-        <div className="mt-6 flex flex-col items-center md:items-start gap-2">
+        <div className="mt-6 gap-2">
           <LinkRow links={PROJECTS} />
           <LinkRow links={SOCIALS} />
-          <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
+          <p className="flex flex-wrap justify-start items-center gap-x-3 gap-y-1 m-0">
             <Link href="/b" className={`no-underline ${muted}`}>
               blog w {totalPosts !== undefined && <span>{totalPosts} posts</span>}
             </Link>
