@@ -51,7 +51,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          POST_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/blog/${{ steps.create.outputs.slug }}"
+          POST_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/b/${{ steps.create.outputs.slug }}"
           gh issue comment "${{ github.event.issue.number }}" \
             --body "Post published: $POST_URL (live once the Pages deploy finishes)."
           gh issue close "${{ github.event.issue.number }}"

@@ -79,7 +79,7 @@ export default function Header({ totalPosts, startYear }: HeaderProps) {
           <a href="mailto:joaquinmetayer@gmail.com">email</a>
         </p>
         <p className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 m-0">
-          <Link href="/blog" className="no-underline text-black/20 dark:text-white/20">
+          <Link href="/b" className="no-underline text-black/20 dark:text-white/20">
             blog w {totalPosts !== undefined && <span>{totalPosts} posts</span>}
           </Link>
         </p>

@@ -85,6 +85,16 @@ function getUniqueFileName(dir, baseFileName) {
   return fileName;
 }
 
+// Posts are named by incremental id: the next post is max(existing id) + 1.
+// Uses max rather than count so deleting a post never reissues a live id.
+function getNextPostId(dir) {
+  const ids = fs
+    .readdirSync(dir)
+    .filter((file) => /^\d+\.md$/.test(file))
+    .map((file) => Number(file.replace(".md", "")));
+  return (ids.length ? Math.max(...ids) : 0) + 1;
+}
+
 function sanitizeFileName(name) {
   const base = path.basename(name).replace(/[^A-Za-z0-9._-]/g, "-");
   return base.replace(/^-+/, "") || "file";
@@ -176,7 +186,6 @@ async function main() {
   }
 
   const date = parsedDate || todayDDMMYYYY();
-  const slug = date.split("-").reverse().join("");
 
   const rootDir = path.join(__dirname, "..");
   const postsDir = path.join(rootDir, "posts");
@@ -186,6 +195,8 @@ async function main() {
   };
   fs.mkdirSync(dirs.images, { recursive: true });
   fs.mkdirSync(dirs.files, { recursive: true });
+
+  const slug = String(getNextPostId(postsDir));
 
   const { content: finalContent, downloaded } = await downloadAttachments(
     content,
@@ -202,8 +213,8 @@ title: "${escapeYamlString(title)}"
 ${finalContent}
 `;
 
-  const baseFileName = `${slug}.md`;
-  const fileName = getUniqueFileName(postsDir, baseFileName);
+  // No dedup needed: getNextPostId returns max + 1, which cannot already exist.
+  const fileName = `${slug}.md`;
   fs.writeFileSync(path.join(postsDir, fileName), postContent);
   console.log(`Post created: posts/${fileName}`);
 

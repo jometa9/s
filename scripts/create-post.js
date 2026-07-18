@@ -15,11 +15,11 @@ function getLastPostDate() {
         const postsDir = path.join(__dirname, '..', 'posts');
         const files = fs.readdirSync(postsDir);
 
+        // Ids are numeric, so sort numerically: string sort puts "99" after "405".
         const markdownFiles = files
-            .filter(file => file.endsWith('.md'))
-            .sort()
-            .reverse();
-        
+            .filter(file => /^\d+\.md$/.test(file))
+            .sort((a, b) => Number(b.replace('.md', '')) - Number(a.replace('.md', '')));
+
         if (markdownFiles.length === 0) {
             return null;
         }
@@ -76,18 +76,15 @@ async function gitOperations(fileName) {
     return true;
 }
 
-function getUniqueFileName(baseFileName) {
-    let counter = 1;
-    let fileName = baseFileName;
+// Posts are named by incremental id: the next post is max(existing id) + 1.
+// Uses max rather than count so deleting a post never reissues a live id.
+function getNextPostId() {
     const postsDir = path.join(__dirname, '..', 'posts');
-    
-    while (fs.existsSync(path.join(postsDir, fileName))) {
-        const nameWithoutExt = baseFileName.replace('.md', '');
-        fileName = `${nameWithoutExt}${counter}.md`;
-        counter++;
-    }
-    
-    return fileName;
+    const ids = fs.readdirSync(postsDir)
+        .filter(file => /^\d+\.md$/.test(file))
+        .map(file => Number(file.replace('.md', '')));
+
+    return (ids.length ? Math.max(...ids) : 0) + 1;
 }
 
 async function getContentType() {
@@ -165,9 +162,7 @@ date: "${date}"
 title: "${title}"
 ---\n\n${content}`;
         
-        const baseFileName = `${date.split('-').reverse().join('')}.md`;
-        
-        const fileName = getUniqueFileName(baseFileName);
+        const fileName = `${getNextPostId()}.md`;
         const filePath = path.join(__dirname, '..', 'posts', fileName);
         
         fs.writeFileSync(filePath, postContent);
