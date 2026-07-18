@@ -14,7 +14,7 @@ const EXT_BY_CONTENT_TYPE = {
   "image/avif": ".avif",
 };
 
-const FORM_LABELS = new Set(["title", "content"]);
+const FORM_LABELS = new Set(["title", "date", "content"]);
 
 function parseIssueForm(body) {
   const lines = body.replace(/\r\n/g, "\n").split("\n");
@@ -51,6 +51,26 @@ function todayDDMMYYYY() {
   const d = new Date();
   const pad = (n) => String(n).padStart(2, "0");
   return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()}`;
+}
+
+function parseDateDDMMYYYY(input) {
+  const value = input.trim();
+  if (!value) return "";
+
+  const parts = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const [day, month, year] = parts
+    ? [parts[3], parts[2], parts[1]]
+    : (value.match(/^(\d{2})-(\d{2})-(\d{4})$/) || []).slice(1);
+
+  if (!day) return null;
+
+  const d = new Date(Number(year), Number(month) - 1, Number(day));
+  const isValid =
+    d.getFullYear() === Number(year) &&
+    d.getMonth() === Number(month) - 1 &&
+    d.getDate() === Number(day);
+
+  return isValid ? `${day}-${month}-${year}` : null;
 }
 
 function getUniqueFileName(dir, baseFileName) {
@@ -137,6 +157,7 @@ async function main() {
   const sections = parseIssueForm(body);
 
   const title = findField(sections, "title").trim();
+  const dateInput = findField(sections, "date");
   const content = findField(sections, "content");
 
   if (!title) {
@@ -148,7 +169,13 @@ async function main() {
     process.exit(1);
   }
 
-  const date = todayDDMMYYYY();
+  const parsedDate = parseDateDDMMYYYY(dateInput);
+  if (parsedDate === null) {
+    console.error(`Invalid date: "${dateInput.trim()}". Use DD-MM-YYYY or YYYY-MM-DD.`);
+    process.exit(1);
+  }
+
+  const date = parsedDate || todayDDMMYYYY();
   const slug = date.split("-").reverse().join("");
 
   const rootDir = path.join(__dirname, "..");

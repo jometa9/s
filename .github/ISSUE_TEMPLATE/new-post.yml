@@ -8,7 +8,7 @@ body:
       value: |
         Fill out the form and submit the issue.
         A GitHub Action will create the file in `posts/`, commit it and publish the post automatically.
-        The post date is set automatically to today's date.
+        Leave the date empty to use today's date.
         When it finishes, this issue is closed automatically with a link to the created file.
 
   - type: input
@@ -19,6 +19,15 @@ body:
       placeholder: My new post
     validations:
       required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: Post date as `DD-MM-YYYY` (or `YYYY-MM-DD`). Leave empty to use today's date.
+      placeholder: 18-07-2026
+    validations:
+      required: false
 
   - type: textarea
     id: content
