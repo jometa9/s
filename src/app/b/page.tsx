@@ -1,8 +1,12 @@
-import getPostMetadata from "../../../components/getPostMetadata";
-import BlogHome from "./BlogHome";
+import BlogHeader from "@/components/BlogHeader";
+import PostList from "@/components/PostList";
+import { getPostMetadata } from "@/components/posts";
 
 export default function Blog() {
-  const { posts } = getPostMetadata();
-
-  return <BlogHome posts={posts} />;
+  return (
+    <>
+      <BlogHeader />
+      <PostList posts={getPostMetadata()} />
+    </>
+  );
 }

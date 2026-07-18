@@ -1,15 +1,11 @@
-import React from "react";
-import Link from "next/link";
+import SiteTitle from "@/components/SiteTitle";
+import { muted } from "@/components/styles";
 
-const Custom404 = () => {
+export default function NotFound() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-4 p-8">
-      <Link href="/" className="text-3xl font-bold">
-        jometa
-      </Link>
-      <p className="text-6xl text-black/20 dark:text-white/20">404</p>
+      <SiteTitle className="text-3xl" />
+      <p className={`text-6xl ${muted}`}>404</p>
     </main>
   );
-};
-
-export default Custom404;
+}
