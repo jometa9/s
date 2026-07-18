@@ -2,6 +2,7 @@ import fs from "fs";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
 import matter from "gray-matter";
 import getPostMetadata from "../../../../components/getPostMetadata";
 import { highlightCode } from "../../utils/highlight";
@@ -42,7 +43,7 @@ const PostPage = async (props: any) => {
       <article>
         <Markdown
           remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
+          rehypePlugins={[rehypeRaw, rehypeSlug]}
           components={{
             code: ({ className, children }) => {
               const language = className
