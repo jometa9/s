@@ -2,16 +2,12 @@
 import { useState } from "react";
 import { PostMetadata } from "../../../components/PostMetadata";
 import PostPreview from "../../../components/PostPreview";
+import { isScheduled as isScheduledPost } from "../../../components/postDates";
 
 interface SearchablePostsProps {
   posts: PostMetadata[];
   showScheduled?: boolean;
 }
-
-const parseDate = (dateString: string) => {
-  const [day, month, year] = dateString.split("-").map(Number);
-  return new Date(year, month - 1, day);
-};
 
 const getYearFromDate = (dateString: string) => {
   return dateString.split("-")[2];
@@ -24,7 +20,7 @@ const BlogHome: React.FC<SearchablePostsProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const today = new Date();
 
-  const isScheduled = (post: PostMetadata) => parseDate(post.date) > today;
+  const isScheduled = (post: PostMetadata) => isScheduledPost(post, today);
 
   const filteredPosts = posts
     .filter((post) =>

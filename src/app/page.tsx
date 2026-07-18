@@ -1,12 +1,14 @@
 import Link from "next/link";
 import getPostMetadata from "../../components/getPostMetadata";
 import Header from "./components/Header";
+import { isScheduled } from "../../components/postDates";
 
 export default function Home() {
   const { posts } = getPostMetadata();
-  const totalPosts = posts.length;
+  const publishedPosts = posts.filter((post) => !isScheduled(post));
+  const totalPosts = publishedPosts.length;
   const startYear = totalPosts
-    ? Number(posts[totalPosts - 1].date.split("-")[2])
+    ? Number(publishedPosts[totalPosts - 1].date.split("-")[2])
     : undefined;
 
   return (

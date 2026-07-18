@@ -14,9 +14,6 @@ const getPostMetadata = (): {
   const files = fs.readdirSync(folder);
   const markdownPosts = files.filter((file) => file.endsWith(".md"));
 
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 1);
-
   const posts = markdownPosts.map((fileName) => {
     const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
     const matterResult = matter(fileContents);
