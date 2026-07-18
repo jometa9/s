@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import SiteTitle from "./SiteTitle";
@@ -5,9 +6,7 @@ import { muted } from "./styles";
 
 const AVATAR = "w-[160px] h-[160px] object-cover";
 
-const AVATARS = [
-  "s/images/blue.webp",
-];
+const AVATARS = ["/images/blue.webp"];
 
 const PROJECTS = [
   { href: "https://iptradecopier.com", label: "iptrade" },
@@ -42,7 +41,14 @@ export default function Header({ totalPosts }: { totalPosts?: number }) {
     <header className="px-5 flex flex-col md:flex-row items-start gap-6 text-left">
       <div className="grid grid-cols-2 gap-2 md:pb-0 shrink-0">
         {AVATARS.map((src) => (
-          <img key={src} className={AVATAR} src={src} alt="jometa" />
+          <Image
+            key={src}
+            className={AVATAR}
+            src={src}
+            alt="jometa"
+            width={160}
+            height={160}
+          />
         ))}
       </div>
 
