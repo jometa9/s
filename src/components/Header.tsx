@@ -6,7 +6,7 @@ import { muted } from "./styles";
 const AVATAR = "w-[160px] h-[160px] object-cover";
 
 const AVATARS = [
-  "/images/blue.webp",
+  "s/images/blue.webp",
 ];
 
 const PROJECTS = [
