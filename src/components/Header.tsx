@@ -1,12 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import SiteTitle from "./SiteTitle";
 import { muted } from "./styles";
 
-const AVATAR = "w-[160px] h-[160px] object-cover";
-
-const AVATARS = ["/images/blue.webp"];
+const AVATAR = "w-[160px] h-[160px] bg-[#1800AC] shrink-0";
 
 const PROJECTS = [
   { href: "https://iptradecopier.com", label: "iptrade" },
@@ -39,18 +36,7 @@ function LinkRow({ links }: { links: { href: string; label: string }[] }) {
 export default function Header({ totalPosts }: { totalPosts?: number }) {
   return (
     <header className="px-5 flex flex-col md:flex-row items-start gap-6 text-left">
-      <div className="grid grid-cols-2 gap-2 md:pb-0 shrink-0">
-        {AVATARS.map((src) => (
-          <Image
-            key={src}
-            className={AVATAR}
-            src={src}
-            alt="jometa"
-            width={160}
-            height={160}
-          />
-        ))}
-      </div>
+      <div className={AVATAR} />
 
       <div className="flex flex-col ">
         <SiteTitle className="text-2xl px-0 text-left " />
