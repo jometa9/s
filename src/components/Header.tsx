@@ -6,7 +6,7 @@ import { muted } from "./styles";
 
 const AVATAR = "w-[160px] h-[160px] object-cover";
 
-const AVATARS = ["s/images/blue.webp"];
+const AVATARS = ["/images/blue.webp"];
 
 const PROJECTS = [
   { href: "https://iptradecopier.com", label: "iptrade" },
