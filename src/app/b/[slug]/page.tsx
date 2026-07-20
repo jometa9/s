@@ -35,7 +35,7 @@ export default async function PostPage({
   return (
     <>
       <PostNav />
-      <h2 className="text-2xl mb-8 pt-4">{post.data.title}</h2>
+      <h2 className={`text-xl mb-8 pt-4 `}>{post.data.title}</h2>
       <PostBody content={post.content} />
       <p className={`${muted} pt-8`}>{post.data.date}</p>
     </>
